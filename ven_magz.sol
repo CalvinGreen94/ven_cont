@@ -57,7 +57,9 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
 
     uint256 public s_maxSupply = 55555555 * 10 ** uint256(decimals());
     // Rewards per hour. A fraction calculated as x/10.000.000 to get the percentage
-    uint256 public rewardsPerHour =  700000000000000000; // 0.05/hr 
+    //uint256 public rewardsPerHour =  700000000000000000; // >>+ /hr  => reproduce error
+    uint256 public rewardsPerHour =  7000000000; // 0.7
+
     // Minimum amount to stake
     uint256 public minStake = 1111;
 
