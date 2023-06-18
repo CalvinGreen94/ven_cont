@@ -30,7 +30,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 
-contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, ReentrancyGuard,ERC20Permit, ERC20Votes,AccessControl {
+contract gammaStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, ReentrancyGuard,ERC20Permit, ERC20Votes,AccessControl {
     
     IERC20 public _token;
     IERC721 public _DAO;
@@ -85,7 +85,7 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
     // Constructor function
     constructor(string memory _name, string memory _symbol)
         ERC20(_name, _symbol)
-        ERC20Permit("Gallery Governance") 
+        ERC20Permit("Contract Governance") 
         
     {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
