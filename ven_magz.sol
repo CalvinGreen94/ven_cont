@@ -57,9 +57,7 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
 
     uint256 public s_maxSupply = 55555555 * 10 ** uint256(decimals());
     // Rewards per hour. A fraction calculated as x/10.000.000 to get the percentage
-    //uint256 public rewardsPerHour =  700000000000000000; // >>+ /hr  => reproduce error
-    uint256 public rewardsPerHour =  7000000000; // 0.7
-
+    uint256 public rewardsPerHour =  700000000; // 0.05/hr 
     // Minimum amount to stake
     uint256 public minStake = 1111;
 
@@ -106,8 +104,8 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
         require(msg.value > 0, "You need to send some ETH to proceed");
         uint256 amountToBuy = msg.value * tokensPerETH;
 
-        uint256 vendorBalance = _token.balanceOf(address(this));
-        require(vendorBalance >= amountToBuy, "Vendor has insufficient tokens");
+        uint256 contractBalance = _token.balanceOf(address(this));
+        require(contractBalance >= amountToBuy, "Contract has insufficient tokens");
 
         (bool sent) = _token.transfer(msg.sender, amountToBuy);
         require(sent, "Failed to transfer token to user");
@@ -127,10 +125,10 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
 
         uint256 amountOfETHToTransfer = tokenAmountToSell / tokensPerETH;
         uint256 ownerETHBalance = address(this).balance;
-        require(ownerETHBalance >= amountOfETHToTransfer, "Vendor has insufficient funds");
+        require(ownerETHBalance >= amountOfETHToTransfer, "Contract has insufficient funds");
         // _token.approve
         (bool sent) = _token.transferFrom(msg.sender, address(this), tokenAmountToSell);
-        require(sent, "Failed to transfer tokens from user to vendor");
+        require(sent, "Failed to transfer tokens from user to contract");
 
         (sent,) = msg.sender.call{value: amountOfETHToTransfer}("");
         _mintMinerReward();
@@ -141,7 +139,7 @@ contract TaurosStaking is ERC20, ERC721Holder,ERC20Burnable,Ownable,Pausable, Re
 
     function DAOstake(uint256 tokenId) external {
         _DAO.safeTransferFrom(msg.sender, address(this), tokenId);
-        _mint(msg.sender,20000000000000000000);
+        _mint(msg.sender,200000000);
         tokenOwnerOf[tokenId] = msg.sender;
         tokenStakedAt[tokenId] = block.timestamp;
         isStaked[tokenId] = true;
